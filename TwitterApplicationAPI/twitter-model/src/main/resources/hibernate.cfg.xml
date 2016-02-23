@@ -1,0 +1,32 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  
+  <session-factory>
+    
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/twitter_hibernate</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password"></property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    
+    
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.use_sql_comment">true</property>
+    
+    
+    
+    <!--mapping class="com.unam.bookstore.entities.annotations.User"/-->
+    <!--mapping package="com.unam.bookstore.entities.annotations"/-->
+    
+    <mapping class="com.crm.twittermodel.entity.TwitterAccounts" />
+    <mapping class="com.crm.twittermodel.entity.TwitterDirectMessages" />
+    
+    
+    
+  </session-factory>
+
+</hibernate-configuration>
