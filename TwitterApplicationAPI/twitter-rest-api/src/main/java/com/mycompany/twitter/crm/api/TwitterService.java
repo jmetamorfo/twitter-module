@@ -34,9 +34,7 @@ public class TwitterService {
     public List<TwitterDirectMessages> setMessage(
             @DefaultValue("Hiya") @QueryParam("message") String message){
         TwitterManager manager = new TwitterManager();
-
         List<TwitterDirectMessages> messages = manager.getMessages();
-        
         return messages;        
     }
     
