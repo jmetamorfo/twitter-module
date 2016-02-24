@@ -8,9 +8,6 @@ package com.crm.twitter;
 import com.crm.twitter.managers.TwitterAPIManager;
 import com.crm.twittermodel.dao.TwitterDAO;
 import com.crm.twittermodel.entity.TwitterAccounts;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +15,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -56,7 +52,8 @@ public class TestTwitterAPI {
             }
             
         } catch (TwitterException ex) {
-            Logger.getLogger(TestTwitterAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(
+                    TestTwitterAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -122,9 +119,11 @@ public class TestTwitterAPI {
         
         TwitterAPIManager manager = new TwitterAPIManager(accounts.get(0));
         
-        manager.getTwitterDirectMessages();
+        //manager.getTwitterDirectMessages();
         
-        manager.saveMessages(manager.getTwitterDirectMessages());
+        //manager.saveMessages(manager.getTwitterDirectMessages());
+        
+        manager.postDirectMessage("juanmuu", "Test from Java");
         
         /*Class myObjectClass = TwitterFactory.class;
         

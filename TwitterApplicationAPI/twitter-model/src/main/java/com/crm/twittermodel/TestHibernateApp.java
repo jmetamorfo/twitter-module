@@ -44,7 +44,7 @@ public class TestHibernateApp {
             twitterAccount.setIsValid(true);
             
             TwitterManager manager = new TwitterManager();
-            manager.createClient(twitterAccount);
+            //manager.createClient(twitterAccount);
             
             
             List<TwitterAccounts> twitterAccounts = manager.getTwitterAccounts();
@@ -52,6 +52,8 @@ public class TestHibernateApp {
             for (TwitterAccounts accounts : twitterAccounts) {
                 System.out.println("Account name: " + accounts.getName());
             }
+            
+            manager.getMessages();
             
 //            TwitterAPIManager test = new TwitterAPIManager(twitterAccounts.get(0));
 //            test.getTwitterDirectMessages();

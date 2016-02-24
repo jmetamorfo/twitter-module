@@ -9,7 +9,6 @@ import com.crm.twitter.TestTwitterAPI;
 import com.crm.twittermodel.dao.TwitterDAO;
 import com.crm.twittermodel.entity.TwitterAccounts;
 import com.crm.twittermodel.entity.TwitterDirectMessages;
-import com.crm.twittermodel.managers.TwitterManager;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,10 +27,9 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class TwitterAPIManager {
 
-    private ConfigurationBuilder configBuilder;
-    private TwitterFactory twitterFactory;
-
-    private TwitterDAO twitterDAO;
+    private final ConfigurationBuilder configBuilder;
+    private final TwitterFactory twitterFactory;
+    private final TwitterDAO twitterDAO;
 
     public TwitterAPIManager(TwitterAccounts accounts) {
 
@@ -43,24 +41,36 @@ public class TwitterAPIManager {
         configBuilder.setOAuthAccessTokenSecret(accounts.getAccessTokenSecret());
 
         twitterFactory = new TwitterFactory(configBuilder.build());
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = 
+                new ClassPathXmlApplicationContext("spring-context.xml");
 
         twitterDAO = (TwitterDAO) context.getBean("twitterDAO");
 
+    }
+    
+    
+    public void postDirectMessage(String screenName, String text) {
+        Twitter sender = twitterFactory.getInstance();
+        screenName = "@" + screenName;
+        try {
+            DirectMessage directMessage = sender.sendDirectMessage(screenName, text);
+            System.out.println("Sent: " + directMessage.getText() 
+                    + " to @" + directMessage.getRecipientScreenName());
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterAPIManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<DirectMessage> getTwitterDirectMessages() {
         Twitter twitter = twitterFactory.getInstance();
         List<DirectMessage> statusses = null;
+        Paging pag = new Paging(1, 100);
         try {
-            Paging pag = new Paging(1, 100);
             statusses = twitter.getDirectMessages(pag);
-            int count = 0;
-
         } catch (TwitterException ex) {
-            Logger.getLogger(TestTwitterAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(
+                    TestTwitterAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return statusses;
     }
 
@@ -73,12 +83,9 @@ public class TwitterAPIManager {
             directMessage.setMessage(message.getText());
             directMessage.setSenderStringName(message.getSenderScreenName());
             directMessage.setRecipientScreenName(message.getRecipientScreenName());
-
             System.out.println(message.getSender().getName());
-            System.out.println("End");
-
-//                manager.saveDirectMessage(directMessage);
             twitterDAO.saveDirectMessage(directMessage);
+            
         }
 
     }
