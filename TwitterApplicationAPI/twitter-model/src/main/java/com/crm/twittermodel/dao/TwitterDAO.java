@@ -6,6 +6,8 @@
 package com.crm.twittermodel.dao;
 
 import com.crm.twittermodel.entity.TwitterAccounts;
+import com.crm.twittermodel.entity.TwitterDirectMessages;
+import java.util.List;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
@@ -21,5 +23,25 @@ public class TwitterDAO {
 
     public void saveAccount(TwitterAccounts account) {
         template.save(account);
-    }    
+    }  
+    
+    public void saveDirectMessage(TwitterDirectMessages twitterDirectMessage) {
+        template.save(twitterDirectMessage);
+    }
+    
+    public List<TwitterAccounts> getTwitterAccounts() {
+        
+        List<TwitterAccounts> accounts = null;
+        
+        System.out.println("The accounts xxxxxxx");
+        
+        try {
+            accounts = template.find("FROM TwitterAccounts");
+            System.out.println("The accounts " + accounts.get(0).getClient());
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return accounts;
+    }
 }

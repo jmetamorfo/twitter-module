@@ -36,7 +36,9 @@ public class TestHibernateSpring {
         twitterAccount.setIsDeleted(false);
         twitterAccount.setIsValid(true);
 
-        twitterDAO.saveAccount(twitterAccount);
+        //twitterDAO.saveAccount(twitterAccount);
+        
+        twitterDAO.getTwitterAccounts();
     }
 
 }
