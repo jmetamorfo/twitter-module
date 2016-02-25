@@ -15,7 +15,11 @@
     </head>
     <body>
 
-        <h2>Spring MVC Autocomplete with JQuery</h2>
+        <h1>Spring MVC with JQuery</h1>
+        
+        <h2>TWITTER DIRECT MESSAGES</h2>
+        
+        <h3>Send a Direct Message</h3>
 
 
         <div id="test">
@@ -23,13 +27,13 @@
         </div>
 
 
-        <ul>
-            <li>
-                <label>Member ID</label>
-                <input id="member_id" type="text" />
-                <input id="blnLoadMember" type="button" value="Get Details" />
-            </li>
-        </ul>
+        <form id="target" action="destination.html">
+            <input type="text" id="screenName" placeholder="Add screen name">
+            <br>
+            <textarea id="message"></textarea>
+            <br>
+            <input type="submit" value="SEND TWEET">
+        </form>
 
 
         <script type="text/javascript">
@@ -37,12 +41,10 @@
 
             $(document).ready(function () {
 
-
-                $("#test").after("TEST 3");
-
-                $('input[type=button]').attr('disabled', true);
+                /*$('input[type=button]').attr('disabled', true);
                 $("#MemberDetails").html('');
                 $("#MemberDetails").addClass("loading");
+                
                 $.ajax({
                     type: "GET",
                     url: "http://localhost:8080/twitter-rest-api/webresources/twitter/message",
@@ -55,22 +57,60 @@
 
                 function OnGetMemberSuccess(data, status) {
                     //jQuery code will go here...
-                    alert("awiwi");
                     console.log(data);
-                    
+
                     for (var x = 0; x < data.length; x++) {
                         console.log(data[x].client);
                         $("#test").after(data[x].client)
-                        
+
                     }
                 }
 
                 function OnGetMemberError(request, status, error) {
                     //jQuery code will go here...
-                    alert("Dammit");
+                }
+                */
+
+
+                $("#target").submit(function (event) {
+                    alert("Handler for .submit() called.");
+                    event.preventDefault();
+                    
+                    var screenName = $("#screenName").val();
+                    var message = $("#message").val();
+                    
+                    alert(screenName);
+                    alert(message);
+                    var weServiceUrl = "http://localhost:8080/twitter-rest-api/webresources/twitter/post/directmessage"
+                    $.ajax({
+                        type: "POST",
+                        url: weServiceUrl,
+                        data: {
+                            screenName : screenName,
+                            text : message
+                        },
+                        dataType: "json",
+                        success: OnGetMemberSuccess,
+                        error: OnGetMemberError
+                    });
+
+                });
+
+                $("#other").click(function () {
+                    $("#target").submit();
+                });
+                
+                
+                function OnGetMemberSuccess(data, status) {
+                    //jQuery code will go here...
+                    alert("yeaqqaaaaa");
+                    
                 }
 
-
+                function OnGetMemberError(request, status, error) {
+                    //jQuery code will go here...
+                    alert("xxxx");
+                }
 
 
             });
