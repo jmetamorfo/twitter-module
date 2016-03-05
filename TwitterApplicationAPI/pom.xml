@@ -16,6 +16,7 @@
         <module>twitter-model</module>
         <module>twitter-rest-api</module>
         <module>twitter-web-client</module>
+        <module>hibernate4</module>
     </modules>
     
 </project>

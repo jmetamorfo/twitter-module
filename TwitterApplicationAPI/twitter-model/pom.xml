@@ -104,6 +104,20 @@
             <version>${spring.version}</version>
         </dependency>
         
+        <!-- Spring + Quartz need transaction -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+
+	<!-- Quartz framework -->
+	<dependency>
+		<groupId>org.quartz-scheduler</groupId>
+		<artifactId>quartz</artifactId>
+		<version>1.8.6</version>
+	</dependency>
+        
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
