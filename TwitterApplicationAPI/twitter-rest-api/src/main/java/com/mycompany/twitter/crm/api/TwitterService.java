@@ -5,9 +5,10 @@
  */
 package com.mycompany.twitter.crm.api;
 
+import com.crm.twitter.hibernate.TestAppHibernate;
+import com.crm.twitter.hibernate.entity.TwitterDirectMessages;
+import com.crm.twitter.hibernate.service.TwitterHibernateService;
 import com.crm.twitter.managers.TwitterAPIManager;
-import com.crm.twittermodel.entity.TwitterDirectMessages;
-import com.crm.twittermodel.managers.TwitterManager;
 import java.util.List;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -18,6 +19,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -27,12 +30,14 @@ import javax.ws.rs.core.UriInfo;
 public class TwitterService {
     
     private UriInfo context;
-    private final TwitterManager manager;
-    private final TwitterAPIManager twitterApiManager;
+    private ApplicationContext ctx;
+    private TwitterHibernateService service;
+    private TwitterAPIManager twitterApiManager;
     
     public TwitterService() {
-        manager = new TwitterManager();
-        twitterApiManager = new TwitterAPIManager(manager.getTwitterAccounts().get(0));
+        ctx = new ClassPathXmlApplicationContext("spring-context.xml");
+        service = ctx.getBean(TwitterHibernateService.class);
+        twitterApiManager = new TwitterAPIManager(service.getTwitterAccounts().get(0));
     }
 
     @GET
@@ -40,9 +45,16 @@ public class TwitterService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<TwitterDirectMessages> setMessage(
             @DefaultValue("Hiya") @QueryParam("message") String message){
-        List<TwitterDirectMessages> messages = manager.getMessages();
+        
+        List<TwitterDirectMessages> messages = service.getDirectMessages();
+        
         return messages;        
     }
+//    public List<TwitterDirectMessages> setMessage(
+//            @DefaultValue("Hiya") @QueryParam("message") String message){
+//        List<TwitterDirectMessages> messages = manager.getMessages();
+//        return messages;        
+//    }
     
     @POST
     @Path("/post/directmessage")

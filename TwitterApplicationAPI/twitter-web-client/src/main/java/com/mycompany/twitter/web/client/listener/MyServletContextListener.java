@@ -5,6 +5,9 @@
  */
 package com.mycompany.twitter.web.client.listener;
 
+import com.crm.twitter.hibernate.TestAppHibernate;
+import com.crm.twitter.hibernate.entity.TwitterAccounts;
+import com.crm.twitter.hibernate.service.TwitterHibernateService;
 import com.crm.twittermodel.quartz.AccountThread;
 import com.ranga.AppTest;
 import com.ranga.dao.EmployeeDAO;
@@ -28,9 +31,6 @@ public class MyServletContextListener implements ServletContextListener {
     private Thread thread = null;
 //    private TwitterDAO twitterDAO;
     
-    @Autowired
-    private EmployeeDAO employeeDAO;
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -51,23 +51,28 @@ public class MyServletContextListener implements ServletContextListener {
 //        }
         
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context.xml");
-        AppTest standalone = ctx.getBean(AppTest.class);
         
-        Employee employee = new Employee();
+        TwitterHibernateService service = ctx.getBean(TwitterHibernateService.class);
         
-        employee.setAge(22);
-        employee.setName("juan");
-        employee.setSalary(120000);
         
-        standalone.getEmployeeDAO().createEmployee(employee);
+        List<TwitterAccounts> accounts = service.getTwitterAccounts();
         
         accountThread = new AccountThread(1000);
-
-        for (int x = 0; x <= 2; x++) {
+        
+        for (TwitterAccounts account : accounts) {
             accountThread.setInterval(7000);
             thread = new Thread(accountThread);
+            thread.setName(account.getClient());
             thread.start();
         }
+        
+        
+
+//        for (int x = 0; x <= 2; x++) {
+//            accountThread.setInterval(7000);
+//            thread = new Thread(accountThread);
+//            thread.start();
+//        }
     }
 
     @Override

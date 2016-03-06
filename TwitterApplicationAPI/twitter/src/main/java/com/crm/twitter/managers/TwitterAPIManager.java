@@ -6,9 +6,12 @@
 package com.crm.twitter.managers;
 
 import com.crm.twitter.TestTwitterAPI;
-import com.crm.twittermodel.dao.TwitterDAO;
-import com.crm.twittermodel.entity.TwitterAccounts;
-import com.crm.twittermodel.entity.TwitterDirectMessages;
+import com.crm.twitter.hibernate.entity.TwitterAccounts;
+import com.crm.twitter.hibernate.entity.TwitterDirectMessages;
+import com.crm.twitter.hibernate.service.TwitterHibernateService;
+//import com.crm.twittermodel.dao.TwitterDAO;
+//import com.crm.twittermodel.entity.TwitterAccounts;
+//import com.crm.twittermodel.entity.TwitterDirectMessages;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +32,7 @@ public class TwitterAPIManager {
 
     private final ConfigurationBuilder configBuilder;
     private final TwitterFactory twitterFactory;
-    private final TwitterDAO twitterDAO;
+    private final TwitterHibernateService service;
 
     public TwitterAPIManager(TwitterAccounts accounts) {
 
@@ -44,7 +47,9 @@ public class TwitterAPIManager {
         ApplicationContext context = 
                 new ClassPathXmlApplicationContext("spring-context.xml");
 
-        twitterDAO = (TwitterDAO) context.getBean("twitterDAO");
+//        twitterDAO = (TwitterDAO) context.getBean("twitterDAO");
+        
+        service = context.getBean(TwitterHibernateService.class);
 
     }
     
@@ -84,7 +89,7 @@ public class TwitterAPIManager {
             directMessage.setSenderStringName(message.getSenderScreenName());
             directMessage.setRecipientScreenName(message.getRecipientScreenName());
             System.out.println(message.getSender().getName());
-            twitterDAO.saveDirectMessage(directMessage);
+            service.saveMessage(directMessage);
             
         }
 

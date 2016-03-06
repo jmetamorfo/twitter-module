@@ -9,7 +9,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <!-- Specifying base package of the Components like Controller, Service, 
     DAO -->
     <context:component-scan
-        base-package="com.ranga" />
+        base-package="com.crm" />
 
     <!-- Getting Database properties -->
     <context:property-placeholder location="classpath:application.properties" />
@@ -52,7 +52,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.ranga.entity"></property>
+        <property name="packagesToScan" value="com.crm.twitter.hibernate.entity"></property>
     </bean>
 
     <!-- Transaction -->

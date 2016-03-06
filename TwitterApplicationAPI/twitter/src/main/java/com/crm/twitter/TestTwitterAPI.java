@@ -5,9 +5,11 @@
  */
 package com.crm.twitter;
 
+import com.crm.twitter.hibernate.entity.TwitterAccounts;
+import com.crm.twitter.hibernate.service.TwitterHibernateService;
 import com.crm.twitter.managers.TwitterAPIManager;
-import com.crm.twittermodel.dao.TwitterDAO;
-import com.crm.twittermodel.entity.TwitterAccounts;
+//import com.crm.twittermodel.dao.TwitterDAO;
+//import com.crm.twittermodel.entity.TwitterAccounts;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -113,17 +115,19 @@ public class TestTwitterAPI {
             Logger.getLogger(TestTwitterAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
-        TwitterDAO twitterDAO = (TwitterDAO) context.getBean("twitterDAO");
+//        TwitterDAO twitterDAO = (TwitterDAO) context.getBean("twitterDAO");
+        TwitterHibernateService service = context.getBean(TwitterHibernateService.class);
         
-        List<TwitterAccounts> accounts = twitterDAO.getTwitterAccounts();
+//        List<TwitterAccounts> accounts = twitterDAO.getTwitterAccounts();
+        List<TwitterAccounts> accounts = service.getTwitterAccounts();
         
         TwitterAPIManager manager = new TwitterAPIManager(accounts.get(0));
         
-        //manager.getTwitterDirectMessages();
+//        manager.getTwitterDirectMessages();
         
-        //manager.saveMessages(manager.getTwitterDirectMessages());
+        manager.saveMessages(manager.getTwitterDirectMessages());
         
-        manager.postDirectMessage("juanmuu", "Test from Java");
+//        manager.postDirectMessage("juanmuu", "Test from Java");
         
         /*Class myObjectClass = TwitterFactory.class;
         
